@@ -78,7 +78,7 @@ def run_single_game(game_number):
 
 def main():
     total_guesses = 0
-    total_games = 100
+    total_games = 10
 
     for i in range(total_games):
         guesses = run_single_game(i)
