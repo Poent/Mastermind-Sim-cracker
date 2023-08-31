@@ -38,42 +38,6 @@ def feedback(code, guess):
 def filter_codes(possible_codes, guess, correct_chars, correct_positions):
     return [code for code in possible_codes if feedback(code, guess) == (correct_chars, correct_positions)]
 
-def knuth_guess(possible_codes):
-    min_max = float('inf')  # Initialize to positive infinity
-    best_guess = None
-    guess_count = 0  # Counter to track how many guesses have been evaluated
-
-    print("Starting Knuth algorithm...")  # Debug output
-
-    for guess in product(range(10), repeat=4):  # For each possible 4-digit guess
-        max_counts = {}  # Dictionary to keep track of worst-case scenario for this guess
-        guess_count += 1
-
-        if guess_count % 1000 == 0:
-            print(f"Evaluating guess {guess_count} out of 10000...")  # Debug output
-
-        # Count the remaining possibilities for each possible feedback
-        for fb_tuple in product(range(5), repeat=2):  # 0-4 correct characters and 0-4 correct positions
-            max_counts[fb_tuple] = 0
-
-        for code in possible_codes:
-            guess_str = ''.join(map(str, guess))  # Convert guess tuple to string to use your existing feedback function
-            fb = feedback(code, guess_str)
-            max_counts[fb] += 1
-
-        # Get the number of remaining possibilities in the worst-case scenario for this guess
-        worst_case = max(max_counts.values())
-
-        # Update the best guess if this guess is better
-        if worst_case < min_max:
-            min_max = worst_case
-            best_guess = ''.join(map(str, guess))
-            print(f"Updated best guess to {best_guess} with worst case {min_max}")  # Debug output
-
-    print("Knuth algorithm completed.")  # Debug output
-    return best_guess
-
-
 
 # single game loop
 def run_single_game(game_number):
@@ -114,7 +78,7 @@ def run_single_game(game_number):
 
 def main():
     total_guesses = 0
-    total_games = 100
+    total_games = 10
 
     for i in range(total_games):
         guesses = run_single_game(i)
